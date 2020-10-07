@@ -3,7 +3,7 @@ import axios from 'axios'
 import { Button, Input, Spin } from 'antd'
 export default function Scrap() {
     const [result, setresult] = useState([])
-    const [query, setquery] = useState('Dhoni')
+    const [query, setquery] = useState('johnny')
     const [loading, setloading] = useState(false)
     const [count, setcount] = useState(20)
     const scrapeName = (e) => {
