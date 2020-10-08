@@ -14,35 +14,70 @@ export default function App(props) {
     const [isTourOpen, setIsTourOpen] = useState(false);
     const showModal = () => setmodal(true)
     const handleOk = () => setmodal(false)
+    const guideAvatar='https://www.pngitem.com/pimgs/m/119-1196721_character-clip-art-sexy-girls-clip-art-hd.png'
     const steps = [
         {
             selector: '',
-            content: 'Welcome to the tour !!',
+            content: () => (
+                <div>
+                    <img height="200" src={guideAvatar} alt="" /><br /> Welcome I'm your personal bot SIA !! <br /> I will guide you !!
+                </div>
+            ),
         },
         {
             selector: '#webcam',
-            content: 'This is where your will see your self ',
+            content: () => (
+                <div>
+                    <img height="50" src={guideAvatar} alt="" />
+                    <br />This is where your will see your self
+                </div>
+            ),
 
         },
         {
             selector: '#output',
-            content: 'Here you will see prediction output',
+            content: () => (
+                <div>
+                    <img height="50" src={guideAvatar} alt="" />
+                    <br />Here you will see prediction output
+                </div>
+            ),
         },
         {
             selector: '#controllpannel',
-            content: 'Here is your Controll Pannel you can add classes, predict, download and upload model with .cbkm extensions'
+            content: () => (
+                <div>
+                    <img height="50" src={guideAvatar} alt="" />
+                    <br />Here is your Controll Pannel you can add classes, predict, download and upload model with .cbkm extensions
+                </div>
+            ),
         },
         {
             selector: '#camswitch',
-            content: 'Here You can switch On & Off your camera  '
+            content: () => (
+                <div>
+                    <img height="50" src={guideAvatar} alt="" />
+                    <br />Here You can switch On & Off your camera  
+                </div>
+            ),
         },
         {
             selector: '#ClassSamplePannel',
-            content: 'Here is your Class Sample Pannel you can add samples images click on Collect Sample'
+            content: () => (
+                <div>
+                    <img height="50" src={guideAvatar} alt="" />
+                    <br />Here is your Class Sample Pannel you can add samples images -> click on Collect Sample 
+                </div>
+            ),
         },
         {
             selector: '#pnt',
-            content: "You would love to see our Privacy & Terms "
+            content: () => (
+                <div>
+                    <img height="50" src={guideAvatar} alt="" />
+                    <br />You would love to see our Privacy & Terms 
+                </div>
+            ),
         },
 
     ];
@@ -94,7 +129,8 @@ export default function App(props) {
                 onRequestClose={() => setIsTourOpen(false)}
                 closeWithMask={false}
                 rounded={10}
-            />
+            >
+            </Tour>
         </div>
     )
 }
