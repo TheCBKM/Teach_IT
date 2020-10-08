@@ -20,7 +20,7 @@ export default function App(props) {
             selector: '',
             content: () => (
                 <div>
-                    <img height="200" src={guideAvatar} alt="" /><br /> Welcome I'm your personal bot SIA !! <br /> I will guide you !!
+                    <img height="200" src={guideAvatar} alt="" /><br /> Welcome I'm your personal bot Ojal !! <br /> I will guide you !!
                 </div>
             ),
         },
