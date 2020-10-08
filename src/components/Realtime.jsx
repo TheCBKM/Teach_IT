@@ -179,7 +179,7 @@ export default function Reatime() {
         <div>
             <center>
                 <p>
-                    <Card title="Web-Cam Output" extra={<Switch defaultChecked onChange={toggleCam} />} className="myCard" style={cardStyle}>
+                    <Card title="Web-Cam Output" extra={<Switch id="camswitch" defaultChecked onChange={toggleCam} />} className="myCard" style={cardStyle}>
                         {dissable &&
                             <img src={dataURL} style={{
                                 filter: 'grayscale(100%)'
@@ -189,11 +189,11 @@ export default function Reatime() {
 
                     </Card>
                     <h3>
-                        <h2>  <Text code>{output}</Text>
+                        <h2 id="output">  <Text code>{output}</Text>
                         </h2>
                     </h3>
                     <br />
-                    <Card className="myCard" title="Controll Pannel" style={cardStyle} >
+                    <Card id="controllpannel" className="myCard" title="Controll Pannel" style={cardStyle} >
 
                         <Button disabled={dissable} type="primary" onClick={addClass}><PlusOutlined /> Add Class </Button>&nbsp;
                     <Button type="primary" disabled={dissable} id="predict" onClick={predi}> <SearchOutlined />Predict </Button>&nbsp;
@@ -205,13 +205,13 @@ export default function Reatime() {
                     <Input type="file" style={{ width: 200 }} onChange={handleFileSelect} />
                     </Card>
                 </p>
-                <Card className="myCard" title="Class Sample Pannel" style={cardStyle}>
+                <Card id="ClassSamplePannel" className="myCard" title="Class Sample Pannel" style={cardStyle}>
 
                     {classes.map(c => {
                         return (<p>
                             <Input onChange={(e) => ChangeClassName(e, c.id)} value={c.name} style={{ width: 300 }} size="middle" placeholder="Type Cass Name"></Input>
                     &nbsp;
-                            <Button disabled={dissable} onClick={() => collectSamples(c.id)}>Collect Sample</Button>
+                            <Button  disabled={dissable} onClick={() => collectSamples(c.id)}>Collect Sample</Button>
                     &nbsp;&nbsp;&nbsp;
                             <Button type="dashed" >{c.count}</Button>
                         </p>)

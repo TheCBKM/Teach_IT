@@ -4,28 +4,62 @@ import './App.less';
 import Scrap from './Scrap';
 import { PageHeader, Button } from 'antd';
 import Modal from 'antd/lib/modal/Modal';
-import {
-    CheckOutlined
-} from '@ant-design/icons';
-
+import { CheckOutlined } from '@ant-design/icons';
 import { Link, Router } from "@reach/router";
+import GetTour from './GetTour';
+import Tour from 'reactour';
 
-export default function App() {
+export default function App(props) {
     const [modal, setmodal] = useState(false)
+    const [isTourOpen, setIsTourOpen] = useState(false);
     const showModal = () => setmodal(true)
     const handleOk = () => setmodal(false)
+    const steps = [
+        {
+            selector: '',
+            content: 'Welcome to the tour !!',
+        },
+        {
+            selector: '#webcam',
+            content: 'This is where your will see your self ',
+
+        },
+        {
+            selector: '#output',
+            content: 'Here you will see prediction output',
+        },
+        {
+            selector: '#controllpannel',
+            content: 'Here is your Controll Pannel you can add classes, predict, download and upload model with .cbkm extensions'
+        },
+        {
+            selector: '#camswitch',
+            content: 'Here You can switch On & Off your camera  '
+        },
+        {
+            selector: '#ClassSamplePannel',
+            content: 'Here is your Class Sample Pannel you can add samples images click on Collect Sample'
+        },
+        {
+            selector: '#pnt',
+            content: "You would love to see our Privacy & Terms "
+        },
+
+    ];
     return (
         <div>
             <PageHeader
-                title={<div style={{ color: "#1967D2" }}>Teach_IT</div>}
+                title={<Link to="/"><div style={{ color: "#1967D2" }}>Teach_IT</div></Link>}
                 style={{
                     border: "1px solid rgb(235, 237, 240)",
                     borderColor: "#1967D2"
                 }}
                 extra={
                     <>
-                        <Link to="/scrape">Scrape_IT</Link>
-                        <Button type="primary" onClick={showModal}>
+                        <Button type="primary" onClick={() => { console.log("wow"); setIsTourOpen(true) }} >Get a Guide</Button>
+
+                        <Link id="scrape" to="/scrape">Scrape_IT</Link>
+                        <Button id="pnt" type="primary" onClick={showModal}>
                             Privacy & Terms</Button>
                     </>}
             />,
@@ -54,6 +88,13 @@ export default function App() {
                 <p><CheckOutlined /> We didn't send data to a third party (only dependent party and API may collect.</p>
                 <p><CheckOutlined /> We can have data points anonymously for analytics only.</p>
             </Modal>
+            <Tour
+                steps={steps}
+                isOpen={isTourOpen}
+                onRequestClose={() => setIsTourOpen(false)}
+                closeWithMask={false}
+                rounded={10}
+            />
         </div>
     )
 }
