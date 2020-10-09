@@ -6,7 +6,6 @@ import { PageHeader, Button } from 'antd';
 import Modal from 'antd/lib/modal/Modal';
 import { CheckOutlined } from '@ant-design/icons';
 import { Link, Router } from "@reach/router";
-import GetTour from './GetTour';
 import Tour from 'reactour';
 
 export default function App(props) {
@@ -66,7 +65,7 @@ export default function App(props) {
             content: () => (
                 <div>
                     <img height="50" src={guideAvatar} alt="" />
-                    <br />Here is your Class Sample Pannel you can add samples images -> click on Collect Sample 
+                    <br />Here is your Class Sample Pannel you can add samples images , click on Collect Sample 
                 </div>
             ),
         },
