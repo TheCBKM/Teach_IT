@@ -7,6 +7,24 @@ import {
     SearchOutlined
 } from '@ant-design/icons';
 import Text from 'antd/lib/typography/Text';
+import Speech from 'speak-tts' // es6
+const speech = new Speech() // will throw an exception if not browser supported
+if (speech.hasBrowserSupport()) { // returns a boolean
+    console.log("speech synthesis supported")
+}
+speech.init({
+    'lang': 'hi-IN',
+}).then((data) => {
+    // The "data" object contains the list of available voices and the voice synthesis params
+    console.log("Speech is ready, voices are available", data)
+    speech.speak({
+        text: "Welcome to the teach it . I am your assistant ojl",
+    })
+}).catch(e => {
+    console.error("An error occured while initializing : ", e)
+})
+
+
 export default function Reatime() {
     let webcamElement
     const [classes, setclasses] = useState([{ name: 'Me', count: 0, id: 0 }, { name: 'Another Me ', count: 0, id: 1 }])
@@ -98,6 +116,10 @@ export default function Reatime() {
                     for (let i = 0; i < m.length; i++) {
                         if (m[i].id == lable) {
                             console.log('set lable', m[i].name)
+                            if (output != m[i].name)
+                                speech.speak({
+                                    text: m[i].name,
+                                })
                             setoutput(m[i].name)
                             break
                         }
@@ -190,6 +212,7 @@ export default function Reatime() {
                     </Card>
                     <h3>
                         <h2 id="output">  <Text code>{output}</Text>
+
                         </h2>
                     </h3>
                     <br />
@@ -211,7 +234,7 @@ export default function Reatime() {
                         return (<p>
                             <Input onChange={(e) => ChangeClassName(e, c.id)} value={c.name} style={{ width: 300 }} size="middle" placeholder="Type Cass Name"></Input>
                     &nbsp;
-                            <Button  disabled={dissable} onClick={() => collectSamples(c.id)}>Collect Sample</Button>
+                            <Button disabled={dissable} onClick={() => collectSamples(c.id)}>Collect Sample</Button>
                     &nbsp;&nbsp;&nbsp;
                             <Button type="dashed" >{c.count}</Button>
                         </p>)
