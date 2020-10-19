@@ -6,6 +6,10 @@ import { PageHeader, Button } from 'antd';
 import Modal from 'antd/lib/modal/Modal';
 import { CheckOutlined } from '@ant-design/icons';
 import { Link, Router } from "@reach/router";
+import {
+    BrowserView,
+    MobileView,
+  } from "react-device-detect";
 import Tour from 'reactour';
 
 export default function App(props) {
@@ -82,6 +86,8 @@ export default function App(props) {
     ];
     return (
         <div>
+<BrowserView>
+
             <PageHeader
                 title={<Link to="/"><div style={{ color: "#1967D2" }}>Teach_IT</div></Link>}
                 style={{
@@ -130,6 +136,15 @@ export default function App(props) {
                 rounded={10}
             >
             </Tour>
+            </BrowserView>
+
+            <MobileView>
+                
+                <center >
+    <h2> We don't support <b> Mobile View </b><br/> For better user experience use your Desktop with camera and speakers  <br/> (Google chrome is recomended)   </h2>
+    <h3>- CBKM</h3>
+                </center>
+    </MobileView>
         </div>
     )
 }
