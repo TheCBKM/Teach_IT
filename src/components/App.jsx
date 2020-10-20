@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react'
 import Reatime from './Realtime'
 import './App.less';
 import Scrap from './Scrap';
-import { PageHeader, Button } from 'antd';
+import { PageHeader, Button ,message} from 'antd';
 import Modal from 'antd/lib/modal/Modal';
 import { CheckOutlined } from '@ant-design/icons';
 import { Link, Router } from "@reach/router";
@@ -11,13 +11,14 @@ import {
     MobileView,
   } from "react-device-detect";
 import Tour from 'reactour';
+import copy from 'copy-to-clipboard';
 
 export default function App(props) {
     const [modal, setmodal] = useState(false)
     const [isTourOpen, setIsTourOpen] = useState(false);
     const showModal = () => setmodal(true)
     const handleOk = () => setmodal(false)
-    const guideAvatar='https://www.pngitem.com/pimgs/m/119-1196721_character-clip-art-sexy-girls-clip-art-hd.png'
+    const guideAvatar='assistant.png'
     const steps = [
         {
             selector: '',
@@ -96,9 +97,15 @@ export default function App(props) {
                 }}
                 extra={
                     <>
+                    <Button id="pnt" type="primary" onClick={()=>{
+                        copy(code)
+                        message.success(` Code Snippets coppied !!`);
+                        message.success(` Paste it on index.html`);
+                        }}>
+                        Code Snippets    </Button>
                         <Button type="primary" onClick={() => { console.log("wow"); setIsTourOpen(true) }} >Get a Guide</Button>
 
-                        <Link id="scrape" to="/scrape">Scrape_IT</Link>
+                        {/* <Link id="scrape" to="/scrape">Scrape_IT</Link> */}
                         <Button id="pnt" type="primary" onClick={showModal}>
                             Privacy & Terms</Button>
                     </>}
@@ -115,10 +122,10 @@ export default function App(props) {
             <Modal
                 title=" Privacy & Terms"
                 visible={modal}
-                onOk={handleOk}
-                onCancel={handleOk}
+                onOk={() => setmodal(false)}
+                onCancel={() => setmodal(false)}
                 footer={[
-                    <Button key="submit" type="primary" onClick={handleOk}>
+                    <Button key="submit" type="primary" onClick={() => setmodal(false)}>
                         Agree
           </Button>,
                 ]}
@@ -128,6 +135,7 @@ export default function App(props) {
                 <p><CheckOutlined /> We didn't send data to a third party (only dependent party and API may collect.</p>
                 <p><CheckOutlined /> We can have data points anonymously for analytics only.</p>
             </Modal>
+           
             <Tour
                 steps={steps}
                 isOpen={isTourOpen}
@@ -148,3 +156,29 @@ export default function App(props) {
         </div>
     )
 }
+
+
+const code =`<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.1.9/p5.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@tensorflow-models/mobilenet"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@tensorflow-models/knn-classifier"></script>
+    <meta charset="utf-8" />
+    <title>Teach-IT Implementation </title>
+</head>
+
+<body>
+    <center>
+        <video autoplay playsinline muted id="webcam" width="500" height="500"></video>
+        <h1 style="padding: 100px;" id="console">LOADING....</h1>
+    </center>
+    <script>
+        let modelURL = 'model.cbkm'
+    </script>
+    <script src="https://teach-it.cbkm.in/sample.js"></script>
+</body>
+
+</html>`
