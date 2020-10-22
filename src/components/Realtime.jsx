@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { Button, Card, Input, message, Switch } from 'antd';
+import { Button, Card, Col, Input, message, Row, Switch } from 'antd';
 import { startApp, addImg, predictImg, getExampleCount, downloadObjectAsJson, load } from './ml'
 import {
     CloudDownloadOutlined,
@@ -62,6 +62,7 @@ export default function Reatime() {
 
     const addClass = () => {
         setclasses([{ name: "Edit this Class", count: 0, id: classes.length }, ...classes])
+        message.success("New Class Added")
     }
 
     const exampleCount = () => {
@@ -199,48 +200,74 @@ export default function Reatime() {
     };
     return (
         <div>
-            <center>
-                <p>
-                    <Card title="Web-Cam Output" extra={<Switch id="camswitch" defaultChecked onChange={toggleCam} />} className="myCard" style={cardStyle}>
-                        {dissable &&
-                            <img src={dataURL} style={{
-                                filter: 'grayscale(100%)'
-                            }} />
-                        }
-                        <video hidden={dissable} playsInline muted id="webcam" width="500" height="300"></video>
 
-                    </Card>
-                    <h3>
-                        <h2 id="output">  <Text code>{output}</Text>
+            <p>
+                <Row gutter={8} justify="space-around" align="top" >
+                    <Col sm={12} >
+                        <Card title="Web-Cam Output" extra={<Switch id="camswitch" defaultChecked onChange={toggleCam} />} className="myCard" style={{
+                            width: "100%",
+                            ...cardStyle,
+                            textAlign: "center",
+                        }}>
+                            {dissable &&
+                                <img width="80%" height="50%" src={dataURL} style={{
+                                    filter: 'grayscale(100%)'
+                                }} />
+                            }
+                            <video hidden={dissable} playsInline muted id="webcam" width="80%" height="50%"></video>
 
-                        </h2>
-                    </h3>
-                    <br />
-                    <Card id="controllpannel" className="myCard" title="Controll Pannel" style={cardStyle} >
+                            <h3>
+                                <h2 id="output">  <Text code>{output}</Text>
 
-                        <Button disabled={dissable} type="primary" onClick={addClass}><PlusOutlined /> Add Class </Button>&nbsp;
+                                </h2>
+                            </h3>
+                        </Card>
+                    </Col>
+                    <Col sm={12}>
+
+                        <Card id="ClassSamplePannel" className="myCard" title="Class Sample Pannel" style={{ width: "100%", ...cardStyle, textAlign: "center", }}>
+
+                            {classes.map(c => {
+                                return (<p>
+                                    <Row justify="center" align="top" gutter={5}>
+                                        <Col lg={8} >
+                                            <Input onChange={(e) => ChangeClassName(e, c.id)} value={c.name}  size="middle" placeholder="Type Cass Name"></Input>
+                                        </Col>
+                                        <Col lg={8}>
+                                            <Button type="primary" disabled={dissable}style={{width:"80%"}} s onClick={() => collectSamples(c.id)}>Collect Sample</Button>
+                                        </Col> <Col lg={2}>
+                                            <Button type="dashed"  >{c.count}</Button>
+                                        </Col> </Row>
+                                </p>)
+                            })}
+                        </Card>
+                    </Col>
+                </Row>
+                <br />
+                <Row align="stretch" justify="center">
+                    <Col sm={12}>
+                        <Card id="controllpannel" className="myCard" title="Controll Pannel" style={{ width: "100%", ...cardStyle, textAlign: "center", }} >
+
+                            <Button disabled={dissable} type="primary" onClick={addClass}><PlusOutlined /> Add Class </Button>&nbsp;
                     <Button type="primary" disabled={dissable} id="predict" onClick={predi}> <SearchOutlined />Predict </Button>&nbsp;
 
                     <Button type="primary" onClick={() => {
-                            downloadObjectAsJson(classes); message.success(`Model ready to Download`);
-                        }}> <CloudDownloadOutlined /> Download </Button>&nbsp;
+                                if (Object.keys(getExampleCount()).length) {
+                                    downloadObjectAsJson(classes);
+                                    message.success(`Model ready to Download`);
+                                    return
+                                }
+                                message.error(`No Model Genrated`);
+                                message.error(`Add Samples`);
+                            }}> <CloudDownloadOutlined /> Download </Button>&nbsp;
+
 
                     <Input type="file" style={{ width: 200 }} onChange={handleFileSelect} />
-                    </Card>
-                </p>
-                <Card id="ClassSamplePannel" className="myCard" title="Class Sample Pannel" style={cardStyle}>
+                        </Card>
+                    </Col>
+                </Row>            </p>
 
-                    {classes.map(c => {
-                        return (<p>
-                            <Input onChange={(e) => ChangeClassName(e, c.id)} value={c.name} style={{ width: 300 }} size="middle" placeholder="Type Cass Name"></Input>
-                    &nbsp;
-                            <Button disabled={dissable} onClick={() => collectSamples(c.id)}>Collect Sample</Button>
-                    &nbsp;&nbsp;&nbsp;
-                            <Button type="dashed" >{c.count}</Button>
-                        </p>)
-                    })}
-                </Card>
-            </center>
+
         </div>
     )
 

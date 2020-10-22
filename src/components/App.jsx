@@ -75,6 +75,15 @@ export default function App(props) {
             ),
         },
         {
+            selector: '#cdsnip',
+            content: () => (
+                <div>
+                    <img height="50" src={guideAvatar} alt="" />
+                    <br />Copy the code to implement in your website
+                </div>
+            ),
+        },
+        {
             selector: '#pnt',
             content: () => (
                 <div>
@@ -97,7 +106,7 @@ export default function App(props) {
                 }}
                 extra={
                     <>
-                    <Button id="pnt" type="primary" onClick={()=>{
+                    <Button id="cdsnip" type="primary" onClick={()=>{
                         copy(code)
                         message.success(` Code Snippets coppied !!`);
                         message.success(` Paste it on index.html`);
