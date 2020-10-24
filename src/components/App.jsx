@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react'
 import Reatime from './Realtime'
 import './App.less';
 import Scrap from './Scrap';
-import { PageHeader, Button ,message} from 'antd';
+import { PageHeader, Button ,message ,Row,Col} from 'antd';
 import Modal from 'antd/lib/modal/Modal';
 import { CheckOutlined } from '@ant-design/icons';
 import { Link, Router } from "@reach/router";
@@ -96,7 +96,6 @@ export default function App(props) {
     ];
     return (
         <div>
-<BrowserView>
 
             <PageHeader
                 title={<Link to="/"><div style={{ color: "#1967D2" }}>Teach_IT</div></Link>}
@@ -104,19 +103,25 @@ export default function App(props) {
                     border: "1px solid rgb(235, 237, 240)",
                     borderColor: "#1967D2"
                 }}
+                
                 extra={
                     <>
+                    <Row justify="center" align="stretch" gutter="10">
+                        <Col >
                     <Button id="cdsnip" type="primary" onClick={()=>{
                         copy(code)
                         message.success(` Code Snippets coppied !!`);
                         message.success(` Paste it on index.html`);
                         }}>
                         Code Snippets    </Button>
+                        
+                        </Col><Col>
                         <Button type="primary" onClick={() => { console.log("wow"); setIsTourOpen(true) }} >Get a Guide</Button>
-
-                        {/* <Link id="scrape" to="/scrape">Scrape_IT</Link> */}
+                        </Col><Col>
                         <Button id="pnt" type="primary" onClick={showModal}>
                             Privacy & Terms</Button>
+                            </Col>
+                    </Row>
                     </>}
             />,
             <Router>
@@ -153,15 +158,6 @@ export default function App(props) {
                 rounded={10}
             >
             </Tour>
-            </BrowserView>
-
-            <MobileView>
-                
-                <center >
-    <h2> We don't support <b> Mobile View </b><br/> For better user experience use your Desktop with camera and speakers  <br/> (Google chrome is recomended)   </h2>
-    <h3>- CBKM</h3>
-                </center>
-    </MobileView>
         </div>
     )
 }

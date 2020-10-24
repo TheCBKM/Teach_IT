@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from 'react'
 import { Button, Card, Col, Input, message, Row, Switch } from 'antd';
-import { startApp, addImg, predictImg, getExampleCount, downloadObjectAsJson, load } from './ml'
+import { startApp, addImg, predictImg, getExampleCount, downloadObjectAsJson, load, clearClass } from './ml'
 import {
     CloudDownloadOutlined,
     PlusOutlined,
-    SearchOutlined
+    SearchOutlined,
+    DeleteOutlined
 } from '@ant-design/icons';
 import Text from 'antd/lib/typography/Text';
 import Speech from 'speak-tts' // es6
@@ -65,6 +66,25 @@ export default function Reatime() {
         message.success("New Class Added")
     }
 
+    const deleteClass = (id) => {
+        let temp = classes
+        let tid = undefined
+        for (let i = 0; i < temp.length; i++) {
+            if (temp[i].id == id) {
+                tid = i
+                break
+            }
+        }
+
+        if (tid != undefined) {
+            console.log(temp, tid)
+            console.log("Inside if")
+            temp.splice(tid, 1)
+            console.log(clearClass(id))
+            message.error("Class Deleted")
+        }
+        setclasses([...temp])
+    }
     const exampleCount = () => {
         let x = getExampleCount()
         let m = classes
@@ -133,7 +153,6 @@ export default function Reatime() {
     }
     const handleFileSelect = (evt) => {
         var files = evt.target.files; // FileList object
-
         // use the 1st file from the list
         let f = files[0];
 
@@ -227,17 +246,21 @@ export default function Reatime() {
 
                         <Card id="ClassSamplePannel" className="myCard" title="Class Sample Pannel" style={{ width: "100%", ...cardStyle, textAlign: "center", }}>
 
-                            {classes.map(c => {
+                            {classes.length < 1 ? "Add Some classes or import your model" : classes.map(c => {
                                 return (<p>
                                     <Row justify="center" align="top" gutter={5}>
                                         <Col lg={8} >
-                                            <Input onChange={(e) => ChangeClassName(e, c.id)} value={c.name}  size="middle" placeholder="Type Cass Name"></Input>
+                                            <Input onChange={(e) => ChangeClassName(e, c.id)} value={c.name} size="middle" placeholder="Type Cass Name"></Input>
                                         </Col>
                                         <Col lg={8}>
-                                            <Button type="primary" disabled={dissable}style={{width:"80%"}} s onClick={() => collectSamples(c.id)}>Collect Sample</Button>
+                                            <Button type="primary" disabled={dissable} style={{ width: "80%" }} s onClick={() => collectSamples(c.id)}>Collect Sample</Button>
                                         </Col> <Col lg={2}>
-                                            <Button type="dashed"  >{c.count}</Button>
-                                        </Col> </Row>
+                                            <Button type="text"   >{c.count}</Button>
+                                        </Col>
+                                        <Col lg={2}>
+                                            <Button type="text" onClick={() => { deleteClass(c.id) }} ><DeleteOutlined style={{ color: "red" }} /></Button>
+                                        </Col>
+                                    </Row>
                                 </p>)
                             })}
                         </Card>
@@ -273,3 +296,4 @@ export default function Reatime() {
 
 
 }
+

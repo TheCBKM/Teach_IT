@@ -13,7 +13,19 @@ export function addImg(img, classId) {
     const activation = net.infer(img, true);
     classifier.addExample(activation, classId);
 }
+export function clearClass(id) {
+    console.log("deleting", id)
 
+    try {
+        classifier.clearClass(id)
+        console.log("deleted", id)
+        return true
+
+    } catch (error) {
+        console.log("error", error)
+        return false
+    }
+}
 export async function predictImg(img) {
     return new Promise(async(resolve, reject) => {
         if (classifier.getNumClasses() > 0) {
