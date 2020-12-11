@@ -2,18 +2,21 @@ import React, { useState, useEffect } from 'react'
 import Reatime from './Realtime'
 import './App.less';
 import Scrap from './Scrap';
-import { PageHeader, Button ,message ,Row,Col} from 'antd';
+import { PageHeader, Button ,message ,Row,Col, Spin} from 'antd';
 import Modal from 'antd/lib/modal/Modal';
 import { CheckOutlined } from '@ant-design/icons';
 import { Link, Router } from "@reach/router";
-import {
-    BrowserView,
-    MobileView,
-  } from "react-device-detect";
+import { auth } from "../firebase";
+
 import Tour from 'reactour';
 import copy from 'copy-to-clipboard';
+import SignIn from './SignIn';
+import { userStore } from './Store';
 
 export default function App(props) {
+    const user = userStore.useState((s) => s.user);
+    console.log(user)
+    
     const [modal, setmodal] = useState(false)
     const [isTourOpen, setIsTourOpen] = useState(false);
     const showModal = () => setmodal(true)
@@ -95,9 +98,16 @@ export default function App(props) {
 
     ];
     return (
-        <div>
-
-            <PageHeader
+        <div style={{height: "100%",}}>
+        {user == false ? (
+          <center>
+            <Spin />
+          </center>
+        ) :        
+        ( <div>
+            {!user?<SignIn />:(   
+                <div>
+           <PageHeader
                 title={<Link to="/"><div style={{ color: "#1967D2" }}>Teach_IT</div></Link>}
                 style={{
                     border: "1px solid rgb(235, 237, 240)",
@@ -120,6 +130,10 @@ export default function App(props) {
                         </Col><Col>
                         <Button id="pnt" type="primary" onClick={showModal}>
                             Privacy & Terms</Button>
+                            </Col>
+                            <Col>
+                        <Button id="pnt" type="primary" onClick={()=>auth.signOut().then(() => navigate("/signup"))}>
+                            Sign Out</Button>
                             </Col>
                     </Row>
                     </>}
@@ -158,7 +172,12 @@ export default function App(props) {
                 rounded={10}
             >
             </Tour>
+            </div>
+            )}
+         
+        </div>)}
         </div>
+        
     )
 }
 
